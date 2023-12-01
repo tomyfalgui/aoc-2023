@@ -8,26 +8,23 @@ fn main() {
     let sum: u32 = file_content.split_whitespace()
         .map(|word|
             word.chars().filter_map(|c| c.to_digit(10)).collect::<Vec<u32>>())
-        .fold(0, |acc, char| {
-            let mut digit = String::new();
-            let char_len = char.len();
-            let first = char[0];
+        .fold(0, |acc, digits| {
+            let mut digit_string = String::new();
+            let digits_len = digits.len();
+            let first_digit = digits[0].to_string();
 
-            match char_len {
+            match digits_len {
                 1 => {
-                    digit.push_str(first.to_string().as_str());
-                    digit.push_str(first.to_string().as_str());
+                    digit_string = first_digit.repeat(2);
                 }
                 _ => {
-                    let last = char.last().unwrap();
-                    digit.push_str(first.to_string().as_str());
-                    digit.push_str(last.to_string().as_str());
+                    let last_digit = digits.last().unwrap().to_string();
+                    digit_string = first_digit + &last_digit;
                 }
             }
 
 
-            let digit: u32 = digit.parse().unwrap();
-            println!("{digit}");
+            let digit: u32 = digit_string.parse().unwrap();
 
             acc + digit
         });
